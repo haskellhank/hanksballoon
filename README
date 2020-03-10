@@ -1,0 +1,38 @@
+Hank's Balloon
+==============
+
+USAGE
+-----
+Compiling the project with `cabal new-build` will yield 3 executables: 'generate', 'analyze' and 'normalize'.
+
+'generate' takes a number as command line parameter and produces a sample log of as many lines on stdout.
+Example:
+
+  ./dist-newstyle/build/x86_64-linux/ghc-8.6.4/hanksballoon-1.0/x/generate/build/generate/generate 50000 > test.log
+
+The log will have mostly valid log lines will occasional errors ('foo' strings) inbetween. The timestamps
+are starting at approximately starting at 1st Jan 2020 00:00 and are approximately monotonically increasing
+at a rate of 1 sample per second, i.e. there will be approx. ~60 samples with the same minute timestamp.
+However to add an element of disorder, actual timestamps will vary from their nominal value by a normal
+(gaussian) distribution with sigma = 500 seconds.
+
+Temperatures in the sample log are of a gaussian distribution with a mean of 20 Celsius and a sigma of
+5 Celsius. Locations are uniformly distributed across a 100km * 100km square.
+
+'analyze' takes a log on stdin and prints statistics on stdout. Example:
+
+  ./dist-newstyle/build/x86_64-linux/ghc-8.6.4/hanksballoon-1.0/x/analyze/build/analyze/normalize < test.log
+
+'normalize' takes a log on stdin and prints, on stdout, the normalized log with samples ordered by timestamp,
+temperature in Celsius and locations in km. Example:
+
+  ./dist-newstyle/build/x86_64-linux/ghc-8.6.4/hanksballoon-1.0/x/normalize/build/normalize/normalize < test.log
+
+ON TIME SORTING
+---------------
+Globally sorting all samples by timestamp is infeasible on large number of samples. The analyzer assumes that
+timestamps are approximately increasing, with samples normally distributed around their nominal position.
+The analyzer interates over the log, keep a buffer of approx. 5000 samples (minus ill-formatted samples).
+At each iteration the buffer is sorted, the lower 2500 samples output, and the buffer replenished from input back
+to 5000. Samples deviating more than 2500 lines (= 5 sigma, at a probability of ~ 3×10^-7) from their nominal position
+will be removed as invalid.

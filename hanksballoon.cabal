@@ -1,0 +1,65 @@
+name:               hanksballoon
+version:            1.0
+Build-Type:         Simple
+cabal-version:      >=1.10
+
+executable generate
+  other-modules:    Types
+  main-is:          Generate.hs
+  hs-source-dirs:   src/main
+  default-language: Haskell2010
+  ghc-options:      -O2 -Wall -fwarn-tabs -fwarn-missing-import-lists
+  build-depends:    base,
+                    containers,
+                    deepseq,
+                    monad-loops,
+                    normaldistribution,
+                    QuickCheck,
+                    random,
+                    regex-tdfa,
+                    regex-tdfa-text,
+                    text,
+                    text-conversions,
+                    time
+
+executable analyze
+  other-modules:    Process
+                    Types
+  main-is:          Analyze.hs
+  hs-source-dirs:   src/main
+  default-language: Haskell2010
+  ghc-options:      -O2 -Wall -fwarn-tabs -fwarn-missing-import-lists
+  build-depends:    base,
+                    containers,
+                    deepseq,
+                    monad-loops,
+                    mtl,
+                    normaldistribution,
+                    parsec,
+                    random,
+                    regex-tdfa,
+                    regex-tdfa-text,
+                    text,
+                    text-conversions,
+                    time
+
+executable normalize
+  other-modules:    Process
+                    Types
+  main-is:          Normalize.hs
+  hs-source-dirs:   src/main
+  default-language: Haskell2010
+  ghc-options:      -O2 -Wall -fwarn-tabs -fwarn-missing-import-lists
+  build-depends:    base,
+                    containers,
+                    deepseq,
+                    monad-loops,
+                    mtl,
+                    normaldistribution,
+                    parsec,
+                    random,
+                    regex-tdfa,
+                    regex-tdfa-text,
+                    text,
+                    text-conversions,
+                    time
